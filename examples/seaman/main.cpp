@@ -17,23 +17,38 @@ struct Seaman {
 		thr_right.join();
 	}
 	void show_way() const {
+		unsigned my_pos;
 		while(!stop) {
-			std::cout << "|" << std::string(position, '-') << '*' 
-				<< std::string(way_width - position, '-') << "|\n";
-			std::this_thread::sleep_for(std::chrono::milliseconds(100));
+			{
+				std::lock_guard<std::mutex> _(mtx);
+				my_pos = position;
+			}
+			show_road(my_pos);
+			std::this_thread::sleep_for(std::chrono::milliseconds(80));
 		}
+		show_road(my_pos);
 	}
 	void walk(int delta) {
 		while(!stop) {
-			std::this_thread::sleep_for(std::chrono::milliseconds(100));
-			position += delta;
-			if ((position == 0) or (position == way_width)) {
+			unsigned my_pos;
+			std::this_thread::sleep_for(std::chrono::milliseconds(
+				100 - 10 * delta));
+			{
+				std::lock_guard<std::mutex> _(mtx);
+				position += delta;
+				my_pos = position;
+			}
+			if ((my_pos < 1) or (my_pos == way_width)) {
 				stop = true;
 				break;
 			}
 		}
 	}
 private:
+	void show_road(unsigned pos) const {
+		std::cout << "|" << std::string(pos - 1, '-') << '*' 
+			<< std::string(way_width - pos - 1, '-') << "|\n";
+	}
 	static constexpr unsigned way_width = 11;
 	unsigned position;
 	mutable std::mutex mtx;
