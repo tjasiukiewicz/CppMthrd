@@ -1,7 +1,9 @@
 #include <iostream>
+#include <chrono>
 #include <thread>
 
 void worker() {
+	std::this_thread::sleep_for(std::chrono::seconds(2));
 	std::cout << "I'm worker()\n";
 }
 
