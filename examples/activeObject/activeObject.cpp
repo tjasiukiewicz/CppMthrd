@@ -3,6 +3,7 @@
 #include <queue>
 #include <chrono>
 #include <mutex>
+#include <functional>
 
 enum class Priority {
     Low,

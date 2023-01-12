@@ -3,7 +3,9 @@
 #include <queue>
 #include <chrono>
 #include <mutex>
+#include <functional>
 
+namespace {
 enum class Priority {
     Low,
     Normal,
@@ -20,6 +22,8 @@ struct Comparator {
         return static_cast<int>(w1.priority) < static_cast<int>(w2.priority);
     }
 };
+
+} // anonymous namespace 
 
 class ActivePrioObject {
 public:
