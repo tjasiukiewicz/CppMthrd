@@ -5,7 +5,7 @@
 #include <vector>
 #include <random>
 #include <numeric>
-
+#include <algorithm>
 // 1. Stwórz std::vector<int> z 1000 elementów losowych [0, 100]
 // 2. W wątkach policz sumę elementów.
 // 3. Zmierz czas wykonania w stosunku do wersji "serialnej".
@@ -20,7 +20,7 @@
 // 1. ....
 //
 
-constexpr static size_t vector_size = 100'000;
+constexpr static size_t vector_size = 40'000;
 using container_t = std::vector<int>;
 
 void data_generate(container_t& data) {
